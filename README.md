@@ -9,6 +9,7 @@ Create services [GitBucket](https://github.com/gitbucket/gitbucket) and [Jenkins
 ## Usage
     git clone https://github.com/shomatan/gitbucket-jenkins-docker-compose.git
     cd gitbucket-jenkins-docker-compose
+    docker-compose build
     docker-compose up -d
 
 You will be able to access sites after a while.
