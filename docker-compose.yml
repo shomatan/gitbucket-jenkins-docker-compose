@@ -1,0 +1,38 @@
+version: '2'
+
+services:
+  gitbucket:
+    container_name: gbj-gitbucket
+    image: takezoe/gitbucket:latest
+    build: gitbucket.docker/
+    ports:
+      - "8080:8080"
+      - "29418:29418"
+    links:
+      - db
+    volumes:
+      - ./volumes/gitbucket/repositories:/gitbucket/repositories
+      - ./volumes/gitbucket/data:/gitbucket/data
+      - ./volumes/gitbucket/database.conf:/gitbucket/database.conf
+      - ./volumes/gitbucket/gitbucket.conf:/gitbucket/gitbucket.conf
+    restart: always
+
+  db:
+    container_name: gbj-postgres
+    image: postgres:9.4
+    environment:
+      POSTGRES_DB: gitbucket
+      POSTGRES_USER: gitbucket
+      POSTGRES_PASSWORD: gitbucket
+    volumes:
+      - ./volumes/postgres:/var/lib/postgresql/data
+    restart: always
+
+  jenkins:
+    container_name: gbj-jenkins
+    image: jenkins:2.46.3
+    ports:
+      - "8081:8080"
+    volumes:
+      - ./volumes/jenkins:/var/jenkins_home
+    restart: always
